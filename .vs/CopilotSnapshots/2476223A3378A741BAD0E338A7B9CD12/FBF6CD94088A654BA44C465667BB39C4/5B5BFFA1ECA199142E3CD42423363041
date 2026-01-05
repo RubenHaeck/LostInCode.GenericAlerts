@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LostInCode.GenericAlerts.Core;
+
+public enum ChangeType
+{
+    Create,
+    Update,
+    Delete
+}

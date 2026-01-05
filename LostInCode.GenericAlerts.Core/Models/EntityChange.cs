@@ -1,0 +1,33 @@
+using LostInCode.GenericAlerts.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace LostInCode.GenericAlerts.Core.Models;
+
+[Table("EntityChanges")]
+public class EntityChange
+{
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    [Required, MaxLength(200)]
+    public string EntityType { get; set; } = string.Empty;
+
+    [Required, MaxLength(200)]
+    public string EntityId { get; set; } = string.Empty;
+
+    public ChangeType ChangeType { get; set; }
+
+    [MaxLength(256)]
+    public string ChangedBy { get; set; } = string.Empty;
+
+    public DateTime ChangedAt { get; set; } = DateTime.UtcNow;
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? ChangesJson { get; set; }
+
+    public bool NotificationSent { get; set; } = false;
+}

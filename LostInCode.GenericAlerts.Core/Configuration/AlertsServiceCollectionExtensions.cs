@@ -1,0 +1,84 @@
+using LostInCode.GenericAlerts.Core.Data;
+using LostInCode.GenericAlerts.Core.Interfaces;
+using LostInCode.GenericAlerts.Core.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+
+namespace LostInCode.GenericAlerts.Core.Configuration;
+
+public static class AlertsServiceCollectionExtensions
+{
+    // Isolated mode: package kan zelf AlertsDbContext registreren
+    public static IServiceCollection AddMyAlertsSystem(
+        this IServiceCollection services,
+        Action<AlertsOptions>? configureOptions = null)
+    {
+        var options = new AlertsOptions();
+        configureOptions?.Invoke(options);
+
+        // Consumer overrides first
+        options.ConfigureServices?.Invoke(services);
+
+        services.AddSingleton(options);
+
+        // Default services
+        services.AddSingleton<IEmailService, DefaultEmailService>();
+        services.AddScoped<IScheduledAlertService, ScheduledAlertService>();
+
+        // AlertsDbContext: optioneel helper
+        if (options.RegisterDbContext)
+        {
+            if (string.IsNullOrWhiteSpace(options.ConnectionString))
+                throw new InvalidOperationException("RegisterDbContext is true but ConnectionString is missing.");
+
+            services.AddDbContextFactory<AlertsDbContext>(builder =>
+            {
+                if (options.UseSqlServer)
+                {
+                    builder.UseSqlServer(options.ConnectionString,
+                        sql => sql.MigrationsAssembly(typeof(AlertsDbContext).Assembly.FullName));
+                }
+                else
+                {
+                    throw new NotSupportedException("Only SqlServer helper implemented. Register AlertsDbContext manually for other providers.");
+                }
+            });
+
+            // Dispatcher en change tracking gebaseerd op AlertsDbContext
+            services.AddScoped<IAlertDispatcher, AlertDispatcher>();
+            services.AddScoped<IChangeTrackingService, ChangeTrackingService<AlertsDbContext>>();
+        }
+
+        if (options.EnableScheduledAlerts)
+        {
+            services.AddHostedService<ScheduledAlertProcessor>();
+        }
+
+        return services;
+    }
+
+    // Integrated mode: gebruik bestaande ApplicationDbContext van de consumer
+    public static IServiceCollection AddMyAlertsSystemFor<TDbContext>(this IServiceCollection services)
+        where TDbContext : DbContext
+    {
+        // Consumer moet AddDbContextFactory<TDbContext> hebben geregistreerd.
+        services.AddSingleton<IEmailService, DefaultEmailService>();
+        services.AddScoped<IScheduledAlertService, ScheduledAlertService>();
+
+        // Dispatcher: standaard gebruikt AlertsDbContext factory; voor integrated mode
+        // kan consumer eigen IAlertDispatcher registreren vóór deze call, of wij bieden
+        // hier een no-op die je vervangt. Om het simpel te houden, registreren we geen default,
+        // want die zou AlertsDbContext vereisen. Laat consumer een implementatie leveren.
+        // Tip: je kunt een AlertDispatcherFor<TDbContext> toevoegen als je wil.
+
+        // ChangeTracking gebaseerd op TDbContext
+        services.AddScoped<IChangeTrackingService, ChangeTrackingService<TDbContext>>();
+
+        // Geen hosted service hier automatisch, want die vereist dispatcher-implementatie.
+        // Consumer kan zelf ScheduledAlertProcessor en IAlertDispatcher toevoegen indien gewenst.
+
+        return services;
+    }
+}

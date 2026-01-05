@@ -1,0 +1,39 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LostInCode.GenericAlerts.Core
+{
+    // NOTE: keep this DbContext minimal and public so consumer can add EF migrations against it.
+    public class AlertsDbContext : DbContext
+    {
+        public AlertsDbContext(DbContextOptions<AlertsDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<AlertSubscription>? AlertSubscriptions { get; set; }
+        public DbSet<EntityChange>? EntityChanges { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AlertSubscription>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.EntityType).HasMaxLength(200).IsRequired();
+                b.Property(x => x.NotificationEmail).HasMaxLength(256).IsRequired();
+                b.HasIndex(x => new { x.EntityType, x.IsActive, x.Frequency });
+            });
+
+            modelBuilder.Entity<EntityChange>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.EntityType).HasMaxLength(200).IsRequired();
+                b.HasIndex(nameof(EntityChange.EntityType), nameof(EntityChange.IsProcessed), nameof(EntityChange.ChangedAt));
+            });
+        }
+    }
+}

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LostInCode.GenericAlerts.Core;
+
+public class AlertSubscription
+{
+    public Guid Id { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public string EntityType { get; set; } = string.Empty;
+    public string? EntityFilter { get; set; }
+    public AlertFrequency Frequency { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; }
+    public DateTime? LastSentAt { get; set; }
+    public string NotificationEmail { get; set; } = string.Empty;
+}

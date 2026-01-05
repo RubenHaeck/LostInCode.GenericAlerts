@@ -1,0 +1,13 @@
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\bin\Debug\net10.0\LostInCode.GenericAlerts.Core.deps.json
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\bin\Debug\net10.0\LostInCode.GenericAlerts.Core.dll
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\bin\Debug\net10.0\LostInCode.GenericAlerts.Core.pdb
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.csproj.AssemblyReference.cache
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.AssemblyInfoInputs.cache
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.AssemblyInfo.cs
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.csproj.CoreCompileInputs.cache
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.sourcelink.json
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.dll
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\refint\LostInCode.GenericAlerts.Core.dll
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\LostInCode.GenericAlerts.Core.pdb
+C:\repos\Allerlei\LostInCode.GenericAlerts\LostInCode.GenericAlerts.Core\obj\Debug\net10.0\ref\LostInCode.GenericAlerts.Core.dll

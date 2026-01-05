@@ -1,0 +1,13 @@
+using LostInCode.GenericAlerts.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LostInCode.GenericAlerts.Core.Interfaces;
+
+public interface IAlertDispatcher
+{
+    Task DispatchAsync(ChangeNotification notification);
+    Task ProcessInstantAlertsAsync(EntityChange change);
+}
